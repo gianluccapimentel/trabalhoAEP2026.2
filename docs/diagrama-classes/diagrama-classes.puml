@@ -1,0 +1,81 @@
+@startuml diagrama-classes
+title Sistema de Gerenciamento de Biblioteca — Diagrama de Classes
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam classFontSize 13
+skinparam linetype polyline
+hide circle
+
+abstract class Pessoa {
+  - id : Long
+  - nome : String
+  - cpf : String
+  - email : String
+  - telefone : String
+  + {abstract} getTipo() : String
+}
+
+class Aluno {
+  + getTipo() : String
+}
+
+class Professor {
+  + getTipo() : String
+}
+
+class Bibliotecario {
+  + getTipo() : String
+}
+
+note right of Aluno
+  Subclasses apenas sobrescrevem getTipo()
+  (@Override). Persistência STI em pessoa.tipo.
+end note
+
+class Biblioteca {
+  - id : Long
+  - nome : String
+}
+
+class Livro {
+  - id : Long
+  - titulo : String
+  - isbn : String
+  - anoPublicacao : Integer
+  - disponivel : boolean
+}
+
+note bottom of Livro
+  Cada registro é um exemplar.
+  disponivel controla RF10 / RN03 / RN05 / RN06.
+end note
+
+class Autor {
+  - id : Long
+  - nome : String
+}
+
+class Emprestimo {
+  - id : Long
+  - dataEmprestimo : LocalDate
+  - dataPrevistaDevolucao : LocalDate
+  - dataDevolucao : LocalDate
+  - status : StatusEmprestimo
+}
+
+enum StatusEmprestimo {
+  ATIVO
+  DEVOLVIDO
+}
+
+Pessoa <|-- Aluno
+Pessoa <|-- Professor
+Pessoa <|-- Bibliotecario
+
+Biblioteca "1" *-- "*" Livro : acervo
+Livro "*" -- "*" Autor : livro_autor
+Pessoa "1" --> "*" Emprestimo
+Livro "1" --> "*" Emprestimo
+Emprestimo --> StatusEmprestimo
+
+@enduml

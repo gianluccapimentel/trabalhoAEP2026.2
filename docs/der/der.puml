@@ -1,0 +1,70 @@
+@startuml der
+title Sistema de Gerenciamento de Biblioteca — DER
+hide circle
+skinparam linetype polyline
+skinparam shadowing false
+
+entity "biblioteca" as biblioteca {
+  * id : SERIAL <<PK>>
+  --
+  * nome : VARCHAR(150)
+}
+
+entity "pessoa" as pessoa {
+  * id : SERIAL <<PK>>
+  --
+  * nome : VARCHAR(150)
+  * cpf : VARCHAR(14) <<UNIQUE>>
+  email : VARCHAR(150)
+  telefone : VARCHAR(20)
+  * tipo : VARCHAR(20)
+}
+
+entity "livro" as livro {
+  * id : SERIAL <<PK>>
+  --
+  * biblioteca_id : INTEGER <<FK>>
+  * titulo : VARCHAR(255)
+  * isbn : VARCHAR(20)
+  * ano_publicacao : INTEGER
+  * disponivel : BOOLEAN
+}
+
+entity "autor" as autor {
+  * id : SERIAL <<PK>>
+  --
+  * nome : VARCHAR(150)
+}
+
+entity "livro_autor" as livro_autor {
+  * livro_id : INTEGER <<PK,FK>>
+  * autor_id : INTEGER <<PK,FK>>
+}
+
+entity "emprestimo" as emprestimo {
+  * id : SERIAL <<PK>>
+  --
+  * pessoa_id : INTEGER <<FK>>
+  * livro_id : INTEGER <<FK>>
+  * data_emprestimo : DATE
+  * data_prevista_devolucao : DATE
+  data_devolucao : DATE
+  * status : VARCHAR(20)
+}
+
+biblioteca ||--|{ livro : acervo\n(composição)
+pessoa ||--o{ emprestimo
+livro ||--o{ emprestimo
+livro ||--|{ livro_autor
+autor ||--|{ livro_autor
+
+note right of pessoa
+  STI: tipo IN (ALUNO, PROFESSOR, BIBLIOTECARIO)
+end note
+
+note bottom of emprestimo
+  status IN (ATIVO, DEVOLVIDO)
+  1 pessoa + 1 livro por empréstimo
+end note
+
+@enduml
