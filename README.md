@@ -5,7 +5,7 @@ Aplicação acadêmica em Java para organizar o acervo e os empréstimos de uma 
 **Curso:** Engenharia de Software — AEP 4º semestre  
 **Semestre:** 2026.2  
 **ODS:** 4 — Educação de Qualidade  
-**GitHub (público, a publicar):** `https://github.com/<usuario>/sistema-gerenciamento-biblioteca`
+**GitHub (público):** https://github.com/gianluccapimentel/trabalhoAEP2026.2
 
 ---
 
@@ -185,7 +185,7 @@ Menu previsto:
 
 ## 10. Cronograma
 
-Datas simuladas do semestre **2026.2** (bimestre 1 ≈ ago–out; bimestre 2 ≈ out–dez). Substituir pelas oficiais se necessário.
+Cronograma **planejado** do semestre 2026.2 (não é o histórico do que já ocorreu). Bimestre 1 = 1ª entrega; bimestre 2 = implementação. Se a instituição publicar datas oficiais de entrega, substituir esta tabela.
 
 ### Bimestre 1 — planejamento (1ª entrega)
 

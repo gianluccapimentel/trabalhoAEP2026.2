@@ -9,7 +9,7 @@
 | Gianlucca Barraco Pimentel | 26007478-2 |
 | Nickolay Alexander Justini Dias | 26007083-2 |
 
-**Repositório GitHub (público, a publicar):** `https://github.com/<usuario>/sistema-gerenciamento-biblioteca`
+**Repositório GitHub (público):** https://github.com/gianluccapimentel/trabalhoAEP2026.2
 
 ---
 
@@ -349,13 +349,16 @@ A aplicação será executável em qualquer ambiente com **Java 21** e **Postgre
 
 Os pacotes Java existem nesta entrega (via `package-info.java`) para o GitHub já nascer com a árvore da 2ª entrega. **Não há `Main.java` nem CRUD nesta etapa.**
 
-O repositório deve ser **público**. O URL definitivo substitui o placeholder deste documento e do README após `gh repo create` na conta de um dos integrantes. Ambos os integrantes devem realizar commits reais e coerentes na 2ª entrega.
+O repositório é **público**: https://github.com/gianluccapimentel/trabalhoAEP2026.2  
+Ambos os integrantes devem realizar commits reais e coerentes (já na 1ª entrega e, principalmente, na 2ª).
 
 ---
 
-## 11. Cronograma (2026.2 — datas simuladas)
+## 11. Cronograma (2026.2)
 
-As datas abaixo são coerentes com o calendário típico do semestre 2026.2 (bimestre 1 ≈ agosto–outubro; bimestre 2 ≈ outubro–dezembro). Devem ser substituídas pelas datas oficiais da instituição, se divergirem.
+Este cronograma é um **plano de trabalho** da equipe (gestão de projetos): quem faz o quê e em qual janela do semestre. **Não descreve o histórico de commits** nem substitui o calendário oficial da disciplina.
+
+As janelas abaixo seguem um 2026.2 típico (1º bimestre ≈ agosto–outubro; 2º bimestre ≈ outubro–dezembro). Se o professor ou o AVA publicarem datas oficiais de entrega, esta tabela deve ser atualizada para coincidir com elas.
 
 ### Bimestre 1 — 1ª entrega (ago–out/2026)
 
