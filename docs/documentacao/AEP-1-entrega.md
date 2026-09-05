@@ -31,14 +31,16 @@ Bibliotecas acadêmicas precisam controlar, ao mesmo tempo, o acervo (livros/exe
 
 **Como organizar e centralizar o gerenciamento de livros e empréstimos de uma biblioteca acadêmica de forma simples, consistente e persistente?**
 
-### 2.3 Partes interessadas
+### 2.3 Partes interessadas, dores e entrega de valor
 
-| Parte | Papel |
-|---|---|
-| **Bibliotecário** | Usuário operacional. Cadastra livros, autores e pessoas; registra empréstimos e devoluções; consulta o acervo e o histórico. |
-| **Aluno** | Usuário da biblioteca. Possui cadastro, empréstimos ativos e histórico. |
-| **Professor** | Usuário acadêmico. Mesma estrutura geral de `Pessoa`, com especialização para demonstrar herança. |
-| **Administração da biblioteca** | Responsável pela integridade dos dados e pela operação contínua do acervo. |
+Cada parte interessada sente uma dor diferente do mesmo controle manual. A tabela liga a dor à sua origem e ao requisito que a resolve.
+
+| Parte | Dor | Origem da dor | Valor entregue |
+|---|---|---|---|
+| **Bibliotecário** | Gasta tempo localizando um título e conferindo quem está com cada exemplar; não sabe de imediato o que pode ou não emprestar. | Acervo e circulação controlados em papel ou planilha, sem fonte única e sem estado por exemplar. | Consulta do acervo com disponibilidade (RF02); registro de empréstimo e devolução que atualiza o exemplar automaticamente (RF07, RF08, RN05, RN06). |
+| **Aluno** | Descobre no balcão que o exemplar já saiu; não tem clareza do que está com ele nem do prazo de devolução. | A disponibilidade não é registrada por exemplar — só é conhecida por quem opera o balcão. | Disponibilidade individual por exemplar e recusa de empréstimo indisponível (RF10, RN03); consulta dos próprios empréstimos e prazos (RF09). |
+| **Professor** | Não consegue confirmar se a obra indicada na disciplina existe no acervo e está livre no período de aula. | Não há consulta confiável por título e autor antes de indicar a bibliografia. | Consulta de livros e de sua autoria (RF02, RF06); visão dos empréstimos em curso sobre cada exemplar (RF09). |
+| **Administração da biblioteca** | Não consegue reconstruir para onde foi um exemplar quando ele some, nem auditar a circulação passada. | Registros dispersos, sem rastro de quem levou o quê e quando, e com histórico perdido a cada anotação refeita. | Histórico de circulação persistido e preservado (RF09); integridade garantida no próprio banco, que barra exclusão de livro com empréstimo registrado (RF04, RN08). |
 
 ### 2.4 Atores do sistema
 
@@ -140,11 +142,15 @@ O sistema deve permitir excluir um livro quando não houver empréstimos ativos 
 
 ### RF05 — Cadastro de pessoas
 
-O sistema deve permitir cadastrar pessoas vinculadas à biblioteca, identificando seu tipo (RN11).
+O sistema deve permitir o cadastro de pessoas vinculadas à biblioteca, contendo pelo menos: nome; CPF; e-mail; telefone; tipo — aluno, professor ou bibliotecário (RN11).
+
+*Modelagem:* nome, CPF e tipo são obrigatórios; e-mail e telefone são opcionais. O CPF é único na tabela `pessoa` e o tipo é restrito a `ALUNO`, `PROFESSOR` ou `BIBLIOTECARIO`.
 
 ### RF06 — Cadastro de autores
 
-O sistema deve permitir cadastrar autores e associá-los aos livros (RN10).
+O sistema deve permitir o cadastro de autores, contendo pelo menos: nome. Deve permitir também associar um ou mais autores a cada livro e um mesmo autor a vários livros (RN10).
+
+*Modelagem:* a associação é N:N e vive na tabela `livro_autor`; o autor não guarda dados do livro nem o livro guarda dados do autor.
 
 ### RF07 — Registro de empréstimo
 

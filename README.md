@@ -61,20 +61,20 @@ Camadas previstas: `model` / `repository` / `service` / `controller` / `database
 
 ## 6. Requisitos funcionais
 
+Mesma lista da documentação da 1ª entrega ([`docs/documentacao/AEP-1-entrega.md`](docs/documentacao/AEP-1-entrega.md), seção 4).
+
 | ID | Requisito |
 |---|---|
-| **RF01** | Cadastro de livros (título, ISBN, ano, quantidade de exemplares, disponibilidade). *Modelo:* cada linha de `Livro` é um exemplar; `disponivel` é booleano. |
-| **RF02** | Consulta de livros e verificação de disponibilidade |
-| **RF03** | Atualização de livros |
-| **RF04** | Exclusão de livros quando não houver empréstimo ativo (RN08). *Modelo:* a FK `emprestimo.livro_id` é `ON DELETE RESTRICT`, então só é excluível o exemplar sem nenhum empréstimo registrado — o histórico de RF09 é preservado. |
-| **RF05** | Cadastro de pessoas com tipo (aluno, professor, bibliotecário) |
-| **RF06** | Cadastro de autores e associação aos livros |
-| **RF07** | Registro de empréstimo (pessoa, livro, datas, status) |
-| **RF08** | Registro de devolução e atualização da disponibilidade |
-| **RF09** | Consulta de empréstimos ativos e finalizados |
-| **RF10** | Impedir empréstimo de exemplar indisponível |
-
-Documentação completa: [`docs/documentacao/AEP-1-entrega.md`](docs/documentacao/AEP-1-entrega.md).
+| **RF01** | O sistema deve permitir o cadastro de livros, contendo pelo menos: título; ISBN; ano de publicação; quantidade de exemplares; status/disponibilidade. *Modelo:* cada linha de `Livro` é um exemplar; a quantidade de um título é o número de registros com o mesmo ISBN; `disponivel` é booleano. |
+| **RF02** | O sistema deve permitir consultar livros cadastrados e verificar sua disponibilidade. |
+| **RF03** | O sistema deve permitir alterar os dados de um livro cadastrado. |
+| **RF04** | O sistema deve permitir excluir um livro quando não houver empréstimos ativos associados que impeçam sua remoção (RN08). *Modelo:* a FK `emprestimo.livro_id` é `ON DELETE RESTRICT`, então só é excluível o exemplar sem nenhum empréstimo registrado — o histórico de RF09 é preservado. |
+| **RF05** | O sistema deve permitir o cadastro de pessoas vinculadas à biblioteca, contendo pelo menos: nome; CPF; e-mail; telefone; tipo — aluno, professor ou bibliotecário (RN11). *Modelo:* nome, CPF e tipo obrigatórios; CPF único; e-mail e telefone opcionais. |
+| **RF06** | O sistema deve permitir o cadastro de autores, contendo pelo menos: nome. Deve permitir também associar um ou mais autores a cada livro e um mesmo autor a vários livros (RN10). *Modelo:* associação N:N pela tabela `livro_autor`. |
+| **RF07** | O sistema deve permitir registrar um empréstimo associando: usuário; livro; data do empréstimo; data prevista para devolução; status (RN01, RN02, RN04, RN09). |
+| **RF08** | O sistema deve permitir registrar a devolução de um empréstimo ativo e atualizar a disponibilidade do livro (RN06, RN07). |
+| **RF09** | O sistema deve permitir consultar empréstimos ativos e finalizados. |
+| **RF10** | O sistema deve impedir que um exemplar indisponível seja emprestado novamente (RN03, RN05). |
 
 ---
 
