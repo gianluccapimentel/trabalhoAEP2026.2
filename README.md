@@ -66,7 +66,7 @@ Camadas previstas: `model` / `repository` / `service` / `controller` / `database
 | **RF01** | Cadastro de livros (título, ISBN, ano, quantidade de exemplares, disponibilidade). *Modelo:* cada linha de `Livro` é um exemplar; `disponivel` é booleano. |
 | **RF02** | Consulta de livros e verificação de disponibilidade |
 | **RF03** | Atualização de livros |
-| **RF04** | Exclusão de livros quando não houver empréstimo ativo (RN08) |
+| **RF04** | Exclusão de livros quando não houver empréstimo ativo (RN08). *Modelo:* a FK `emprestimo.livro_id` é `ON DELETE RESTRICT`, então só é excluível o exemplar sem nenhum empréstimo registrado — o histórico de RF09 é preservado. |
 | **RF05** | Cadastro de pessoas com tipo (aluno, professor, bibliotecário) |
 | **RF06** | Cadastro de autores e associação aos livros |
 | **RF07** | Registro de empréstimo (pessoa, livro, datas, status) |

@@ -136,6 +136,8 @@ O sistema deve permitir alterar os dados de um livro cadastrado.
 
 O sistema deve permitir excluir um livro quando não houver empréstimos ativos associados que impeçam sua remoção (RN08).
 
+*Modelagem:* a FK `emprestimo.livro_id` usa `ON DELETE RESTRICT`, então o banco também barra a exclusão de um exemplar que tenha apenas empréstimos `DEVOLVIDO`. A escolha é deliberada: apagar o livro destruiria o histórico de circulação exigido por RF09. Na prática, RF04 exclui exemplares que nunca foram emprestados; para os demais, a operação é recusada e a validação de RN08 permanece na camada `service`.
+
 ### RF05 — Cadastro de pessoas
 
 O sistema deve permitir cadastrar pessoas vinculadas à biblioteca, identificando seu tipo (RN11).
@@ -213,8 +215,7 @@ O acervo **pertence** à biblioteca: um `Livro` não existe fora dela. No banco,
 ### 6.5 Demais relacionamentos
 
 - `Livro * —— * Autor` (tabela associativa `livro_autor`)
-- `Pessoa 1 —— * Emprestimo`
-- `Livro 1 —— * Emprestimo`
+- `Emprestimo * —— 1 Pessoa` e `Emprestimo * —— 1 Livro`: a navegação parte de `Emprestimo`, que carrega as duas referências (RN09), espelhando as FKs `emprestimo.pessoa_id` e `emprestimo.livro_id`
 - `Emprestimo.status` ∈ {`ATIVO`, `DEVOLVIDO`} (enum `StatusEmprestimo` no modelo OO)
 
 ### 6.6 Entidade Livro (exemplar)
@@ -252,9 +253,13 @@ Integridade prevista no schema:
 - `pessoa.tipo` ∈ {`ALUNO`, `PROFESSOR`, `BIBLIOTECARIO`}
 - `pessoa.cpf` UNIQUE
 - `emprestimo.status` ∈ {`ATIVO`, `DEVOLVIDO`}
+- `livro.ano_publicacao > 0`
+- `emprestimo.data_prevista_devolucao >= data_emprestimo` e, quando preenchida, `data_devolucao >= data_emprestimo`
+- coerência entre estado e data: `ATIVO` exige `data_devolucao` nula e `DEVOLVIDO` exige `data_devolucao` preenchida — apoia RF08 e RN07
 - FKs com `ON DELETE RESTRICT` (exceto `livro_autor.livro_id`, em `CASCADE` para não orfanar associações ao excluir um livro permitido)
 - um único empréstimo `ATIVO` por `livro_id` (índice único parcial) — reforço de RF10/RN03
 - `isbn` **não** é UNIQUE, porque vários exemplares do mesmo título podem coexistir
+- exclusão de livro só é possível enquanto ele não tiver nenhum empréstimo registrado, ativo ou devolvido (ver RF04) — o histórico de RF09 prevalece
 
 ---
 

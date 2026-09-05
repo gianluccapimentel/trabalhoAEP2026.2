@@ -52,11 +52,11 @@ entity "emprestimo" as emprestimo {
   * status : VARCHAR(20)
 }
 
-biblioteca ||--|{ livro : acervo\n(composição)
+biblioteca ||--o{ livro : acervo\n(composição)
 pessoa ||--o{ emprestimo
 livro ||--o{ emprestimo
 livro ||--|{ livro_autor
-autor ||--|{ livro_autor
+autor ||--o{ livro_autor
 
 note right of pessoa
   STI: tipo IN (ALUNO, PROFESSOR, BIBLIOTECARIO)
@@ -64,7 +64,16 @@ end note
 
 note bottom of emprestimo
   status IN (ATIVO, DEVOLVIDO)
-  1 pessoa + 1 livro por empréstimo
+  1 pessoa + 1 livro por empréstimo (RN09)
+  no máximo 1 empréstimo ATIVO por livro
+  (índice único parcial) — RF10 / RN03
+  status e data_devolucao são coerentes (CHECK)
+end note
+
+note bottom of livro_autor
+  RN10 (livro tem ao menos um autor) é regra
+  de negócio garantida na camada service;
+  o DDL não impõe cardinalidade mínima.
 end note
 
 @enduml

@@ -4,11 +4,11 @@ Fonte equivalente a `der.puml`. Usar se o PlantUML não estiver disponível para
 
 ```mermaid
 erDiagram
-    BIBLIOTECA ||--|{ LIVRO : "acervo (composição)"
+    BIBLIOTECA ||--o{ LIVRO : "acervo (composição)"
     PESSOA ||--o{ EMPRESTIMO : realiza
     LIVRO ||--o{ EMPRESTIMO : "é emprestado"
     LIVRO ||--|{ LIVRO_AUTOR : possui
-    AUTOR ||--|{ LIVRO_AUTOR : assina
+    AUTOR ||--o{ LIVRO_AUTOR : assina
 
     BIBLIOTECA {
         int id PK
@@ -48,3 +48,9 @@ erDiagram
         varchar status
     }
 ```
+
+Cardinalidades mínimas: `BIBLIOTECA` pode existir sem livros (o `schema.sql` já
+insere uma biblioteca vazia) e `AUTOR` pode ser cadastrado antes de qualquer
+associação (RF06) — por isso `o{` nos dois casos. `LIVRO ||--|{ LIVRO_AUTOR`
+representa RN10 (livro com ao menos um autor), que é regra de negócio validada
+na camada `service`: o DDL não impõe cardinalidade mínima em tabela associativa.

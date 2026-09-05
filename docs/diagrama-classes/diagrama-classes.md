@@ -53,8 +53,8 @@ classDiagram
     Pessoa <|-- Professor
     Pessoa <|-- Bibliotecario
     Biblioteca "1" *-- "*" Livro : acervo
-    Livro "*" --> "*" Autor : livro_autor
-    Pessoa "1" --> "*" Emprestimo
-    Livro "1" --> "*" Emprestimo
+    Livro "*" -- "*" Autor : livro_autor
+    Emprestimo "*" --> "1" Pessoa
+    Emprestimo "*" --> "1" Livro
     Emprestimo --> StatusEmprestimo
 ```

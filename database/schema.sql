@@ -9,6 +9,8 @@
 --   * Composição Biblioteca 1—* Livro via biblioteca_id.
 --   * N:N Livro–Autor via livro_autor.
 --   * Emprestimo: exatamente 1 pessoa + 1 livro; status ATIVO | DEVOLVIDO.
+--   * Histórico de circulação é preservado: nenhum empréstimo é apagado em
+--     cascata. Ver a nota sobre RF04/RN08 na FK fk_emprestimo_livro.
 -- ============================================================================
 
 CREATE TABLE biblioteca (
@@ -69,6 +71,11 @@ CREATE TABLE emprestimo (
     CONSTRAINT fk_emprestimo_pessoa
         FOREIGN KEY (pessoa_id) REFERENCES pessoa (id)
         ON DELETE RESTRICT,
+    -- RF04 / RN08: o RESTRICT é mais forte que RN08 de propósito. RN08 proíbe
+    -- excluir livro com empréstimo ATIVO; a FK também barra a exclusão quando
+    -- só existem empréstimos DEVOLVIDOS, porque apagar o livro destruiria o
+    -- histórico exigido por RF09. Na prática, RF04 só remove exemplar que
+    -- nunca foi emprestado. A validação de RN08 continua na camada service.
     CONSTRAINT fk_emprestimo_livro
         FOREIGN KEY (livro_id) REFERENCES livro (id)
         ON DELETE RESTRICT,
@@ -80,6 +87,12 @@ CREATE TABLE emprestimo (
     ),
     CONSTRAINT ck_emprestimo_devolucao CHECK (
         data_devolucao IS NULL OR data_devolucao >= data_emprestimo
+    ),
+    -- RF08 / RN07: status e data_devolucao devem ser coerentes. Sem isto o
+    -- banco aceita DEVOLVIDO sem data e ATIVO já com data de devolução.
+    CONSTRAINT ck_emprestimo_status_devolucao CHECK (
+        (status = 'ATIVO'     AND data_devolucao IS NULL)
+     OR (status = 'DEVOLVIDO' AND data_devolucao IS NOT NULL)
     )
 );
 
